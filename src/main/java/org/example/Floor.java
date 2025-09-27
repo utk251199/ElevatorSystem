@@ -1,6 +1,10 @@
 package org.example;
 
 public class Floor {
-    int level;
-    ExternalPanel externalPanel;
+    int floorvLevel;
+    Direction direction;
+
+    void callElevatorController(int floorvLevel,Direction direction){
+
+    }
 }

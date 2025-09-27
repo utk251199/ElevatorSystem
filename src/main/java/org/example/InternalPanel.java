@@ -1,7 +1,8 @@
 package org.example;
 
+import java.util.List;
+
 public class InternalPanel {
 
-    Direction direction;
-    int floor_number;
+    List<Button> buttons;
 }
