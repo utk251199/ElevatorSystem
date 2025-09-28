@@ -2,15 +2,14 @@ package org.example;
 
 public class Floor {
     int floorNumber;
-    Direction direction;
     ElevatorController elevatorController;
 
-    public Floor(int floorNumber,Direction direction){
+    public Floor(int floorNumber){
         this.floorNumber = floorNumber;
-        this.direction = direction;
+        this.elevatorController = new ElevatorController();
     }
 
-    void callElevatorController(int floorNumber,Direction direction){
-        elevatorController.requestElevator(floorNumber,direction);
+    void callElevatorController(Direction direction){
+        elevatorController.requestElevator(floorNumber, direction);
     }
 }
