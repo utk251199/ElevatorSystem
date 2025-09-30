@@ -6,14 +6,20 @@ import java.util.List;
 public class ElevatorController {
 
     List<Elevator> elevators;
+    SelectionStrategy selectionStrategy;
 
-    ElevatorController(){
-        Elevator elevator = new Elevator(1);
-        this.elevators = new ArrayList<>();
-        this.elevators.add(elevator);
+    ElevatorController(List<Elevator> elevators, SelectionStrategy selectionStrategy) {
+        this.elevators = elevators;
+        this.selectionStrategy = selectionStrategy;
     }
 
-    void requestElevator(int floor_number, Direction direction){
-        elevators.getFirst().move(floor_number);                     //Dummy logic for now
+    void requestElevator(int floorNumber, Direction direction){
+        Elevator selctedElevator = selectionStrategy.select(elevators,floorNumber, direction);
+        selctedElevator.addRequest(floorNumber);
     }
+
+    public List<Elevator> getElevators() {
+        return elevators;
+    }
+
 }

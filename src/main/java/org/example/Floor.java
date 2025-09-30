@@ -4,9 +4,9 @@ public class Floor {
     int floorNumber;
     ElevatorController elevatorController;
 
-    public Floor(int floorNumber){
+    public Floor(int floorNumber,ElevatorController elevatorController){
         this.floorNumber = floorNumber;
-        this.elevatorController = new ElevatorController();
+        this.elevatorController = elevatorController;
     }
 
     void callElevatorController(Direction direction){

@@ -5,18 +5,18 @@ import java.util.Queue;
 
 public class Elevator {
 
-    int id;
-    int currentFloor;
-    InternalPanel internalPanel;
-    State state;
-    Queue<Integer> requests;
+    private final int id;
+    private int currentFloor;
+    private State state;
+    private final Queue<Integer> requests;
+    private final EventPublisher eventPublisher;
 
-    Elevator(int id) {
+    Elevator(int id,EventPublisher eventPublisher) {
         this.id = id;
         this.currentFloor = 0;
         this.state = State.IDLE;
         this.requests = new LinkedList<>();
-        this.internalPanel = new InternalPanel(this);
+        this.eventPublisher = eventPublisher;
     }
 
     public void addRequest(int destinationFloor) {
@@ -27,30 +27,23 @@ public class Elevator {
     }
 
     private void processNextRequest() {
-        if (requests.isEmpty()) {
-            state = State.IDLE;
-            return;
+
+        while (!requests.isEmpty()) {
+            int destination = requests.poll();
+            state = State.MOVING;
+            eventPublisher.move(id, currentFloor, destination);
+            currentFloor = destination;
+            eventPublisher.openDoor(id, currentFloor);
+            eventPublisher.closeDoor(id);
         }
-
-        int destination = requests.poll();
-        state = State.MOVING;
-        move(destination);
-        openDoor();
-        closeDoor();
-
-        processNextRequest();
+        state = State.IDLE;
     }
 
-    void move(int destinationFloor) {
-        System.out.println("Elevator " + id + " moving from " + currentFloor + " to " + destinationFloor);
-        this.currentFloor = destinationFloor;
+    public int getCurrentFloor() {
+        return currentFloor;
     }
 
-    void openDoor() {
-        System.out.println("Elevator " + id + " opening door at floor " + currentFloor);
-    }
-
-    void closeDoor() {
-        System.out.println("Elevator " + id + " closing door");
+    public State getState() {
+        return state;
     }
 }
